@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moonchild Diaries — a NIKI fan page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="nebula" aria-hidden="true"></div>
+<canvas id="stars"></canvas>
+
+<nav>
+  <div class="brand" id="brandTrigger" style="cursor:pointer;">moonchild <span>diaries</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#discography">Records</a></li>
+    <li><a href="#spotlight">Spotlight</a></li>
+    <li><a href="#moods">Moods</a></li>
+    <li><a href="#fanzone">Fan Zone</a></li>
+  </ul>
+
+  <div class="account-area">
+    <button class="login-link" id="loginTrigger">log in</button>
+    <div class="moon-avatar small" id="navAvatar" hidden></div>
+
+    <div class="account-dropdown" id="accountDropdown" hidden>
+      <div class="account-dropdown-header">
+        <div class="moon-avatar" id="dropdownAvatar"></div>
+        <div>
+          <div class="dropdown-name" id="dropdownName">fan</div>
+          <div class="dropdown-phase" id="dropdownPhase">·</div>
+        </div>
+      </div>
+      <button class="dropdown-item" id="openSettingsBtn">Settings</button>
+      <button class="dropdown-item danger" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- AUTH MODAL -->
+<div class="modal-backdrop" id="authBackdrop" hidden>
+  <div class="modal-card">
+    <button class="modal-close" id="authClose">&times;</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Log in</button>
+      <button class="auth-tab" data-tab="signup">Sign up</button>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <label>email</label>
+      <input type="email" id="loginEmail" required>
+      <label>password</label>
+      <input type="password" id="loginPassword" required>
+      <button type="submit" class="play-btn">log in</button>
+      <div class="auth-status" id="loginStatus"></div>
+    </form>
+
+    <form id="signupForm" class="auth-form" hidden>
+      <label>display name</label>
+      <input type="text" id="signupName" maxlength="30" required>
+      <label>email</label>
+      <input type="email" id="signupEmail" required>
+      <label>password</label>
+      <input type="password" id="signupPassword" minlength="6" required>
+      <button type="submit" class="play-btn">create account</button>
+      <div class="auth-status" id="signupStatus"></div>
+    </form>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-backdrop" id="settingsBackdrop" hidden>
+  <div class="modal-card">
+    <button class="modal-close" id="settingsClose">&times;</button>
+    <h3 style="font-family:'Fraunces',serif; font-size:1.4rem; margin-bottom:20px;">edit account</h3>
+
+    <div class="settings-row">
+      <div class="moon-avatar" id="settingsAvatar" style="width:70px;height:70px;"></div>
+      <button type="button" class="reroll-btn" id="rerollBtn">↻ reroll my moon</button>
+    </div>
+
+    <label>display name</label>
+    <input type="text" id="settingsName" maxlength="30">
+    <button class="play-btn" id="saveSettingsBtn" style="margin-top:16px;">save changes</button>
+    <div class="auth-status" id="settingsStatus"></div>
+  </div>
+</div>
+
+<div class="moon-wrap" aria-hidden="true">
+  <div class="moon"><div class="moon-shadow" id="moonShadow"></div></div>
+  <div class="moon-label" id="moonLabel">new moon</div>
+</div>
+
+<!-- EASTER EGG OVERLAY -->
+<div class="moonchild-overlay" id="moonchildOverlay" hidden>
+  <div class="moonchild-overlay-figure"></div>
+  <p class="moonchild-overlay-text">you found the moonchild.</p>
+  <button class="share-btn" id="closeMoonchildOverlay">← back to reality</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="eyebrow reveal is-visible">a fan page, not affiliated with NIKI or 88rising</span>
+
+  <div class="diary-stamp reveal is-visible">
+    <span class="diary-stamp-label">entry no. 004</span>
+    <span class="diary-stamp-date" id="diaryDate"></span>
+  </div>
+
+  <h1 class="reveal is-visible diary-heading">
+    <span class="diary-quote-mark">“</span>dear whoever's still awake at 2am replaying a voice memo —<br>
+    <span class="typed-line" id="typedLine"></span><span class="typed-cursor">|</span>
+  </h1>
+
+  <p class="lede reveal is-visible">
+    NIKI — born Nicole Zefanya in Jakarta — writes songs the way most people write diary entries:
+    unguarded, specific, and a little too honest. This is a small corner of the internet for
+    keeping track of why that matters.
+  </p>
+  <div class="scroll-hint"><span class="line"></span> scroll — the moon fills as you go</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <span class="eyebrow reveal">liner notes</span>
+  <h2 class="reveal" style="font-size:2.2rem; margin:14px 0 34px;">who is NIKI?</h2>
+  <div class="about-grid">
+    <div class="reveal">
+      <p>
+        Long before the arena tours, NIKI was a teenager in Jakarta posting acoustic covers to
+        YouTube, guitar in her lap, learning to say things in English she probably couldn't say
+        out loud. She signed to 88rising in her late teens and has spent the years since turning
+        that same unguarded instinct into full records.
+      </p>
+      <p>
+        What keeps people coming back isn't just the voice — it's the specificity. She writes about
+        panic attacks, one-sided love, family friction, and the particular loneliness of being far
+        from home, without ever softening the edges. It's diary-writing set to melody, which is
+        exactly why it lands.
+      </p>
+    </div>
+    <dl class="facts reveal">
+      <dt>Real name</dt><dd>Nicole Zefanya</dd>
+      <dt>From → based in</dt><dd>Jakarta, Indonesia → Los Angeles</dd>
+      <dt>Label</dt><dd>88rising</dd>
+      <dt>Streams</dt><dd>5B+ on Spotify (as of 2025)</dd>
+      <dt>Milestone</dt><dd>First Indonesian woman certified Gold in the US</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- DISCOGRAPHY -->
+<section id="discography">
+  <span class="eyebrow reveal">the records</span>
+  <h2 class="reveal" style="font-size:2.2rem; margin:14px 0 8px;">four records, four versions of her</h2>
+  <p class="reveal" style="opacity:0.7; max-width:50ch;">Tap a sleeve for the liner note.</p>
+  <p class="scroll-hint-carousel reveal">← swipe to browse →</p>
+
+  <div class="records">
+    <div class="record reveal" tabindex="0" role="button" aria-expanded="false" data-album="zephyr">
+      <div class="fav-star" data-album="zephyr" onclick="event.stopPropagation(); toggleFavorite('zephyr', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.5L21 9.3l-5 4.6L17.5 21 12 17.5 6.5 21 8 13.9l-5-4.6 6.1-0.8z"/></svg>
+      </div>
+      <!-- IMAGE SLOT: Zephyr cover — add src below -->
+      <div class="img-slot cover-slot empty" data-label="add Zephyr cover here" onclick="event.stopPropagation()">
+        <img src="zephyr-cover.jpg" alt="Zephyr EP cover" onload="this.parentElement.classList.remove('empty')" onerror="this.parentElement.classList.add('empty')">
+      </div>
+      <div class="disc"></div>
+      <div class="year">2018</div>
+      <h3>Zephyr</h3>
+      <div class="mood-tag">debut EP · early sketches</div>
+      <div class="blurb">The first fully-produced release, after years of bedroom acoustic covers.
+      Rougher and smaller than what came after, but you can already hear the same instinct for
+      saying the uncomfortable thing plainly.</div>
+      <span class="toggle">+ liner note</span>
+    </div>
+
+    <div class="record reveal" tabindex="0" role="button" aria-expanded="false" data-album="moonchild">
+      <div class="fav-star" data-album="moonchild" onclick="event.stopPropagation(); toggleFavorite('moonchild', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.5L21 9.3l-5 4.6L17.5 21 12 17.5 6.5 21 8 13.9l-5-4.6 6.1-0.8z"/></svg>
+      </div>
+      <!-- IMAGE SLOT: Moonchild cover — add src below -->
+      <div class="img-slot cover-slot empty" data-label="add Moonchild cover here" onclick="event.stopPropagation()">
+        <img src="moonchild-cover.jpg" alt="Moonchild album cover" onload="this.parentElement.classList.remove('empty')" onerror="this.parentElement.classList.add('empty')">
+      </div>
+      <div class="disc"></div>
+      <div class="year">2020</div>
+      <h3>Moonchild</h3>
+      <div class="mood-tag">concept album · sci-fi lullaby</div>
+      <div class="blurb">Her debut full-length, built around a moon-mythology concept where sound
+      becomes a kind of shelter. NME named it one of the year's best Asian albums, and it's the
+      record this whole page borrows its name from.</div>
+      <span class="toggle">+ liner note</span>
+    </div>
+
+    <div class="record reveal" tabindex="0" role="button" aria-expanded="false" data-album="nicole">
+      <div class="fav-star" data-album="nicole" onclick="event.stopPropagation(); toggleFavorite('nicole', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.5L21 9.3l-5 4.6L17.5 21 12 17.5 6.5 21 8 13.9l-5-4.6 6.1-0.8z"/></svg>
+      </div>
+      <!-- IMAGE SLOT: Nicole cover — add src below -->
+      <div class="img-slot cover-slot empty" data-label="add Nicole cover here" onclick="event.stopPropagation()">
+        <img src="nicole-cover.jpg" alt="Nicole album cover" onload="this.parentElement.classList.remove('empty')" onerror="this.parentElement.classList.add('empty')">
+      </div>
+      <div class="disc"></div>
+      <div class="year">2022</div>
+      <h3>Nicole</h3>
+      <div class="mood-tag">self-titled · diary entries</div>
+      <div class="blurb">Named after her own first name — and it shows. The concept-album distance
+      of Moonchild drops away for something more direct and personal. This is the record home to
+      "Oceans & Engines," and it charted in both the US and UK.</div>
+      <span class="toggle">+ liner note</span>
+    </div>
+
+    <div class="record reveal" tabindex="0" role="button" aria-expanded="false" data-album="buzz">
+      <div class="fav-star" data-album="buzz" onclick="event.stopPropagation(); toggleFavorite('buzz', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.5L21 9.3l-5 4.6L17.5 21 12 17.5 6.5 21 8 13.9l-5-4.6 6.1-0.8z"/></svg>
+      </div>
+      <!-- IMAGE SLOT: Buzz cover — add src below -->
+      <div class="img-slot cover-slot empty" data-label="add Buzz cover here" onclick="event.stopPropagation()">
+        <img src="buzz-cover.jpg" alt="Buzz album cover" onload="this.parentElement.classList.remove('empty')" onerror="this.parentElement.classList.add('empty')">
+      </div>
+      <div class="disc"></div>
+      <div class="year">2024</div>
+      <h3>Buzz</h3>
+      <div class="mood-tag">folk-rock · identity crisis</div>
+      <div class="blurb">Written on the road during what she's called an identity crisis in her
+      mid-twenties. Warmer, twangier, and more unresolved than what came before — named for the
+      feeling of being right on the edge of something.</div>
+      <span class="toggle">+ liner note</span>
+    </div>
+  </div>
+</section>
+
+<!-- SPOTLIGHT -->
+<section id="spotlight">
+  <span class="eyebrow reveal">track spotlight</span>
+  <div class="spotlight reveal">
+    <div class="spotlight-inner">
+      <div class="waveform" aria-hidden="true">
+        <div class="bar" style="animation-delay:0s"></div>
+        <div class="bar" style="animation-delay:0.1s"></div>
+        <div class="bar" style="animation-delay:0.2s"></div>
+        <div class="bar" style="animation-delay:0.05s"></div>
+        <div class="bar" style="animation-delay:0.3s"></div>
+        <div class="bar" style="animation-delay:0.15s"></div>
+        <div class="bar" style="animation-delay:0.25s"></div>
+        <div class="bar" style="animation-delay:0.08s"></div>
+      </div>
+      <div>
+        <div class="track-title">Oceans & Engines
+          <span class="fav-star fav-star-inline" data-track="DropwjmHtoo" onclick="toggleFavoriteTrack('DropwjmHtoo', 'Oceans & Engines', this)">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.5L21 9.3l-5 4.6L17.5 21 12 17.5 6.5 21 8 13.9l-5-4.6 6.1-0.8z"/></svg>
+          </span>
+        </div>
+        <div class="track-meta">from Nicole · 2022</div>
+        <p>
+          This is the one that gets picked, every time. It's a heartbreak song that never raises
+          its voice — the kind of track that sounds like watching a memory fade in slow motion
+          instead of living through it. There's something about how restrained it stays, even at
+          its most devastating, that makes it feel more honest than a song that begs.
+        </p>
+        <a class="play-btn" href="https://youtu.be/DropwjmHtoo?si=9JqRXWtYOHasWoGp" target="_blank" rel="noopener">
+          ▷ listen on youtube
+        </a>
+        <button class="play-btn bg-play-btn" id="bgPlayToggle" type="button">
+          ♫ play in background
+        </button>
+        <div class="waveform-note">background player streams the official YouTube audio — no video shown</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<iframe id="bgPlayerFrame" class="bg-player-frame" src="" title="background music player" allow="autoplay" aria-hidden="true"></iframe>
+
+<div id="nowPlayingBar" class="now-playing-bar" hidden>
+  <span class="now-playing-dot" aria-hidden="true"></span>
+  <span id="nowPlayingLabel">—</span>
+  <button id="nowPlayingStop" type="button" aria-label="stop background music">⏸ stop</button>
+</div>
+
+<!-- MOODS -->
+<section id="moods" class="moods">
+  <span class="eyebrow reveal">the constellation</span>
+  <h2 class="reveal" style="font-size:2.2rem; margin:14px 0 6px;">what her songs actually feel like</h2>
+  <p class="reveal" style="opacity:0.7; max-width:50ch; margin-bottom:0;">Pick a mood.</p>
+
+  <div class="mood-buttons reveal" id="moodButtons">
+    <button class="mood-btn active" data-mood="heartbreak">heartbreak</button>
+    <button class="mood-btn" data-mood="longing">longing</button>
+    <button class="mood-btn" data-mood="growth">self-growth</button>
+    <button class="mood-btn" data-mood="nostalgia">nostalgia</button>
+    <button class="mood-btn" data-mood="hope">hope</button>
+  </div>
+
+  <div class="mood-display reveal" id="moodDisplay">
+    <span class="mood-name" id="moodName">heartbreak</span>
+    <p id="moodText">The kind of songs you play right after it ends — not to feel better, just to feel it fully, all the way through.</p>
+    <div class="mood-songs" id="moodSongs"></div>
+  </div>
+</section>
+
+<!-- FAN ZONE DRAWER (Favorites / Quiz / Guestbook) -->
+<section id="fanzone">
+  <span class="eyebrow reveal">for you</span>
+  <h2 class="reveal" style="font-size:2.2rem; margin:14px 0 20px;">the fan zone</h2>
+
+  <div class="drawer-tabs reveal">
+    <button class="drawer-tab active" data-panel="favorites">Favorites</button>
+    <button class="drawer-tab" data-panel="quiz">Quiz</button>
+    <button class="drawer-tab" data-panel="guestbook">Guestbook</button>
+  </div>
+
+  <!-- FAVORITES -->
+  <div class="drawer-panel active" id="favorites">
+    <p class="reveal" style="opacity:0.7; max-width:50ch; margin-bottom:8px;">Tap the star on any record or the spotlight track to save it here. Saved to this device only.</p>
+
+    <div class="records reveal" id="favoritesGrid" style="margin-top:34px;"></div>
+    <div class="fav-empty reveal" id="favoritesEmpty">+ star a record or the spotlight track to start your collection</div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="drawer-panel" id="quiz">
+    <p class="reveal" style="opacity:0.7; max-width:50ch; margin-bottom:20px;">which era are you?</p>
+
+    <div class="quiz-card reveal" id="quizCard">
+      <div class="quiz-progress" id="quizProgress">question 1 of 7</div>
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+    </div>
+
+    <div class="quiz-card quiz-result" id="quizResultCard" hidden>
+      <div class="img-slot cover-slot empty" id="quizResultCover" data-label=""></div>
+      <div>
+        <div class="quiz-result-eyebrow">your era is</div>
+        <div class="quiz-result-title" id="quizResultTitle"></div>
+        <p id="quizResultText"></p>
+        <button class="share-btn" id="quizShareBtn">↓ save your result</button>
+        <button class="share-btn" id="quizRetakeBtn" style="border-color:var(--lavender); margin-left:10px;">↻ retake quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUESTBOOK -->
+  <div class="drawer-panel" id="guestbook">
+    <p class="reveal" style="opacity:0.7; max-width:50ch; margin-bottom:8px;">Anonymous. 120 characters. Shows 30 random notes from everyone, every time you refresh.</p>
+
+    <div class="guestbook-form reveal" style="margin-top:30px;">
+      <textarea id="noteInput" maxlength="120" placeholder="what does her music mean to you?"></textarea>
+      <span class="char-count" id="noteCharCount">0 / 120</span>
+      <button class="play-btn" id="noteSubmitBtn">leave a note</button>
+      <span class="waveform-note" id="noteStatus" style="display:block; margin-top:10px;"></span>
+    </div>
+
+    <div class="notes-grid reveal" id="notesGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="full-moon" aria-hidden="true"></div>
+  <p>moonchild diaries</p>
+
+  <div class="connectors">
+    <a href="https://open.spotify.com/artist/2kxP07DLgs4xlWz8YHlvfh" target="_blank" rel="noopener">Spotify</a>
+    <a href="https://music.apple.com/us/artist/niki/1324809450" target="_blank" rel="noopener">Apple Music</a>
+    <a href="https://www.youtube.com/channel/UCaAWRu53UW815hGTmxvHFbA" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://www.instagram.com/nikizefanya" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://tiktok.com/@niki" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://twitter.com/nikizefanya" target="_blank" rel="noopener">Twitter</a>
+  </div>
+
+  <div class="credit">made with care by Jeremy Javier</div>
+  <p>a NIKI fan page · not affiliated with NIKI or 88rising</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
